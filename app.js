@@ -43,7 +43,7 @@ app.use(
     extended: true
   })
 );
-const sendgrid_verification = process.env.SENDGRID_VERIFICATION === 'true';
+const sendgrid_verification = process.env.SENDGRID_VERIFICATION === 'false';
 const discord_verification = process.env.DISCORD_VERIFICATION === 'true';
 const smtp_verification = process.env.SMTP_VERIFICATION === 'true';
 const sendgrid_options = {
