@@ -17,6 +17,7 @@ const ACTIVE_CODES = new Set();
 if (!fs.existsSync("./tmp/memory.txt")) {
   fs.writeFileSync("./tmp/memory.txt", "", "utf-8");
 }
+
 let TOKENS = fs
   .readFileSync("./tmp/memory.txt", "utf-8")
   .trim()
@@ -230,6 +231,7 @@ server.on("listening", () => {
 server.listen({
   port: PORT
 });
+
 
 function hash(token) {
   const salt = bcrypt.genSaltSync(10);
