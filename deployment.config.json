@@ -1,7 +1,7 @@
 {
   "sendgrid_verification": true,
   "sendgrid_options": {
-    "api_key": "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",
+    "api_key": "ENTER_HERE",
     "sendFromEmail": "THE EMAIL THE CODES WILL BE SENT FROM (MUST BE VERIFIED IN SENDGRID)",
     "to_email": "THE EMAIL YOU WANT THE CODES SENT TO"
   },
