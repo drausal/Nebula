@@ -42,14 +42,12 @@ app.use(
     extended: true
   })
 );
-
+const sendgrid_verification = process.env.SENDGRID_VERIFICATION === 'true';
+const discord_verification = process.env.DISCORD_VERIFICATION === 'true';
+const smtp_verification = process.env.SMTP_VERIFICATION === 'true';
 // Verification
 app.patch("/generate-otp", async (req, res) => {
-  if (
-    config.sendgrid_verification ||
-    config.discord_verification ||
-    config.smtp_verificaton
-  ) {
+  if (sendgrid_verification || discord_verification || smtp_verification) {
     const OTP = generateCode();
     ACTIVE_CODES.add(OTP);
 
