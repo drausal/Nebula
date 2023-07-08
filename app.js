@@ -45,6 +45,11 @@ app.use(
 const sendgrid_verification = process.env.SENDGRID_VERIFICATION === 'true';
 const discord_verification = process.env.DISCORD_VERIFICATION === 'true';
 const smtp_verification = process.env.SMTP_VERIFICATION === 'true';
+const sendgrid_options = {
+  api_key: process.env.API_KEY,
+  to_email: process.env.to_email,
+  sendFromEmail: process.env.sendFromEmail
+};
 // Verification
 app.patch("/generate-otp", async (req, res) => {
   if (sendgrid_verification || discord_verification || smtp_verification) {
@@ -65,11 +70,11 @@ app.patch("/generate-otp", async (req, res) => {
   (this message is automated)`
     };
 
-    if (config.sendgrid_verification) {
-      sgMail.setApiKey(config.sendgrid_options.api_key);
+    if (sendgrid_verification) {
+      sgMail.setApiKey(sendgrid_options.api_key);
 
-      email.to = config.sendgrid_options.to_email;
-      email.from = config.sendgrid_options.sendFromEmail;
+      email.to = sendgrid_options.to_email;
+      email.from = sendgrid_options.sendFromEmail;
       try {
         await sgMail.send(msg);
       } catch {
@@ -77,11 +82,11 @@ app.patch("/generate-otp", async (req, res) => {
       }
     }
 
-    if (config.smtp_verification) {
-      const smtpMailerAgent = nodemailer.createTransport(config.smtp_options);
+    if (smtp_verification) {
+      const smtpMailerAgent = nodemailer.createTransport(smtp_options);
 
-      email.to = config.smtp_options.to_email;
-      email.from = config.smtp_options.sendFromEmail;
+      email.to = smtp_options.to_email;
+      email.from = smtp_options.sendFromEmail;
       try {
         smtpMailerAgent.sendMail(email);
       } catch {
@@ -89,9 +94,9 @@ app.patch("/generate-otp", async (req, res) => {
       }
     }
 
-    if (config.discord_verification) {
+    if (cdiscord_verification) {
       try {
-        await fetch(config.webhook_url, {
+        await fetch(webhook_url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
