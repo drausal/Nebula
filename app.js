@@ -43,7 +43,7 @@ app.use(
     extended: true
   })
 );
-const sendgrid_verification = process.env.SENDGRID_VERIFICATION === 'false';
+const sendgrid_verification = process.env.SENDGRID_VERIFICATION === 'true';
 const discord_verification = process.env.DISCORD_VERIFICATION === 'true';
 const smtp_verification = process.env.SMTP_VERIFICATION === 'true';
 const sendgrid_options = {
@@ -123,11 +123,7 @@ function generateCode() {
 }
 
 app.post("/validate-otp", (req, res) => {
-  if (
-    config.sendgrid_verification ||
-    config.discord_verification ||
-    config.smtp_verificaton
-  ) {
+  if (sendgrid_verification || discord_verification || smtp_verification) {
     const OTP = req.body.otp;
 
     if (ACTIVE_CODES.has(OTP)) {
@@ -169,11 +165,7 @@ app.use("/uv/", express.static(uvPath));
 
 // Login route
 app.get("/login", (req, res) => {
-  if (
-    config.sendgrid_verification ||
-    config.discord_verification ||
-    config.smtp_verificaton
-  ) {
+  if (sendgrid_verification || discord_verification || smtp_verification) {
     res.sendFile(path.join(__dirname, "src", "unv.html"));
   } else {
     res.redirect("/");
@@ -182,11 +174,7 @@ app.get("/login", (req, res) => {
 
 // General Routes
 app.use((req, res, next) => {
-  if (
-    config.sendgrid_verification ||
-    config.discord_verification ||
-    config.smtp_verificaton
-  ) {
+  if (sendgrid_verification || discord_verification || smtp_verification) {
     const verification = req.cookies["validation"];
     if (!verification || !validateToken(verification)) {
       return res.redirect("/login");
